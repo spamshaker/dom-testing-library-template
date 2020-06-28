@@ -22,16 +22,23 @@ function Login() {
           password: passwordInput.value,
         }),
       })
-      .then(r => r.json())
-      .then(
-        user => {
-          setState({loading: false, resolved: true, error: null})
-          window.localStorage.setItem('token', user.token)
-        },
-        error => {
-          setState({loading: false, resolved: false, error: error.message})
+      .then(r => {
+          if (r.status === 500) {
+            return r.json().then((json) => {
+              const {message} = json;
+              throw new Error(message);
+            })
+          }
+          return r.json()
         },
       )
+      .then(user => {
+        setState({loading: false, resolved: true, error: null})
+        window.localStorage.setItem('token', user.token)
+      })
+      .catch(error => {
+        setState({loading: false, resolved: false, error: error.message})
+      })
   }
 
   return (

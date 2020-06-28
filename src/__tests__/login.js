@@ -50,7 +50,7 @@ test('allows the user to login successfully', async () => {
 test('handles server exceptions', async () => {
   // mock the server error response for this test suite only.
   server.use(
-    rest.post('/', (req, res, ctx) => {
+    rest.post('/api/login', (req, res, ctx) => {
       return res(ctx.status(500), ctx.json({message: 'Internal server error'}))
     }),
   )
