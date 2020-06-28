@@ -9,10 +9,10 @@ import {setupServer} from 'msw/node'
 // import testing utilities
 import {render, fireEvent, screen} from '@testing-library/react'
 import Login from '../login'
-
+const fakeUserResponse = {token: 'fake_user_token'};
 const server = setupServer(
   rest.post('/api/login', (req, res, ctx) => {
-    return res(ctx.json({token: 'fake_user_token'}))
+    return res(ctx.json(fakeUserResponse))
   }),
 )
 
